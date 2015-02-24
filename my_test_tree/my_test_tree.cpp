@@ -34,6 +34,45 @@ public:
 	{
 	}
 
+	bool is_bst()
+	{
+		if (!root)
+			return true;		
+		return is_bst(root);
+	}
+
+	bool is_bst(tree_item *i)
+	{
+		if (i == &nul)
+			return true; 
+		bool r = true;
+
+		if (i->l != &nul)
+		{
+			r = i->d > i->l->d && r;
+			if (i->d <= i->l->d)
+			{
+				std::cout << "p:" << i->d << "l:" << i->l->d << "\n";
+			}
+		
+		}
+
+		if (i->r != &nul)
+		{
+			r = i->d < i->r->d && r;
+			if (i->d >= i->r->d)
+			{
+				std::cout << "p:" << i->d << "r:" << i->r->d << "\n";
+			}
+		}
+
+		if (i->l != &nul)
+			r = is_bst(i->l) && r;
+		if (i->r != &nul)
+			r = is_bst(i->r) && r;
+
+		return   r;
+	}
 
 	item_of_type *get(data d)
 	{		
@@ -260,13 +299,21 @@ typedef tree<long> long_tree;
 void create_1(long_tree & t)
 {
 	t.insert(new long_tree::item_of_type(45));
+	assert(t.is_bst());
 	t.insert(45, 24, 76);
+	assert(t.is_bst());
 	t.insert(24, 14, 32);
+	assert(t.is_bst());
 	t.insert(14, 8, 20);
+	assert(t.is_bst());
 	t.insert(32, 27, 37);
+	assert(t.is_bst());
 	t.insert(76, 61, 87);
+	assert(t.is_bst());
 	t.insert(61, 56, 67);
-	t.insert(87, 81, 94);
+	assert(t.is_bst());
+	t.insert(87, 81, 94);	
+	assert(t.is_bst());
 
 	long_tree::item_of_type *i = t.get(16);
 	assert(i);
@@ -277,11 +324,15 @@ int _tmain(int argc, _TCHAR* argv[])
 {
 	long_tree t;
 
+	assert(t.is_bst());
+
 	std::vector<long> r1;	
 	std::vector<long> r2;
 	std::vector<long> r3;
 
 	create_1(t);
+
+	assert(t.is_bst());
 
 	//t.count();
 	
